@@ -8,7 +8,7 @@
 > 
 >> Универсальный файл для вагранта: [Vagrantfile](https://drive.google.com/file/d/1Q5deuz9kcm9VeXDiX44iuHZZSp66VuAY/view)
 > 
->> Репозиторий с docker role [ссылка](https://github.com/Solidbush/DevOpsRoles)
+>> Репозиторий с docker role [ссылка](https://github.com/Hacker-zen/DevOpsRoles)
 
 > Задачи:
 >> * Инициировать структуру роли “Docker” через Ansible-Galaxy
