@@ -1,5 +1,4 @@
----
-- name: Установка Docker
+- name: Установка Docker, Docker SDK для Python и запуск Django контейнера
   hosts: app
   become: true
 
@@ -7,7 +6,7 @@
     - docker
 
   tasks:
-    - name: Установка pip для Python3
+    - name: Установка pip для Python3 и Docker SDK для Python
       apt:
         name: python3-pip
         state: present
@@ -18,12 +17,7 @@
         state: present
         executable: pip3
 
-- name: Запуск контейнера с Django приложением
-  hosts: app
-  become: true
-
-  tasks:
-    - name: Запуск контейнера с Django
+    - name: Запуск контейнера с Django приложением
       docker_container:
         name: django_app
         image: timurbabs/django:latest
