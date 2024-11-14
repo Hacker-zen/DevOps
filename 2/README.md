@@ -7,7 +7,7 @@
 >> Docker-образ: https://hub.docker.com/repository/docker/timurbabs/django
 > 
 > 
->> Репозиторий с docker role [ссылка] (hhttps://github.com/Hacker-zen/DevOpsRoles)
+>> Репозиторий с docker role [ссылка] (https://github.com/Hacker-zen/DevOpsRoles)
 >>
 >> 
 >>>> Универсальный файл для вагранта: [Vagrantfile](https://drive.google.com/file/d/1Q5deuz9kcm9VeXDiX44iuHZZSp66VuAY/view)
