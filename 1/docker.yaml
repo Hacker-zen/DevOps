@@ -1,7 +1,9 @@
----
-- name: Установка Docker
+- name: Установка Docker и Docker SDK для Python
   hosts: app
   become: true
+
+  roles:
+    - docker
 
   tasks:
     - name: Установка зависимостей
@@ -54,12 +56,7 @@
     - name: Отображение установленной версии Docker
       debug:
         msg: "Установленная версия Docker: {{ docker_version.stdout }}"
-        
-- name: Установка Docker SDK для Python
-  hosts: app
-  become: true
 
-  tasks:
     - name: Установка pip для Python3
       apt:
         name: python3-pip
