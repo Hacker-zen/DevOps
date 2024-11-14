@@ -1,0 +1,47 @@
+---
+- name: Установка Docker
+  hosts: app
+  become: true
+
+  roles:
+    - docker
+
+  tasks:
+    - name: Установка pip для Python3
+      apt:
+        name: python3-pip
+        state: present
+
+    - name: Установка Docker SDK для Python через pip
+      pip:
+        name: docker
+        state: present
+        executable: pip3
+
+- name: Запуск контейнера с Django приложением
+  hosts: app
+  become: true
+
+  tasks:
+    - name: Запуск контейнера с Django
+      docker_container:
+        name: django_app
+        image: timurbabs/django:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "8000:8000"
+
+    - name: Ожидание перед проверкой сервера
+      pause:
+        seconds: 10
+
+    - name: Проверка, что приложение работает
+      uri:
+        url: http://localhost:8000
+        return_content: yes
+      register: app_response
+
+    - name: Вывод содержимого главной страницы
+      debug:
+        var: app_response.content
