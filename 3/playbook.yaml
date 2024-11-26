@@ -1,0 +1,63 @@
+- name: Настройка веб-хостов (Nginx)
+  hosts: web
+  become: true
+  roles:
+    - nginx
+
+- name: Docker Setup
+  hosts: app
+  become: true
+  gather_facts: false
+  roles:
+    - docker
+
+- name: Запуск и проверка Django приложения
+  hosts: app
+  become: true
+  tasks:
+    - name: Запуск контейнера с Django
+      docker_container:
+        name: django_app
+        image: timurbabs/django:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "8000:8000"
+
+    - name: Ожидание перед проверкой сервера
+      pause:
+        seconds: 10
+
+    - name: Проверка, что приложение работает
+      uri:
+        url: http://localhost:8000
+        return_content: yes
+      register: app_response
+
+    - name: Вывод содержимого главной страницы
+      debug:
+        var: app_response.content
+
+- name: Копирование статики на веб-хосты
+  hosts: web
+  become: true
+  tasks:
+    - name: Клонировать репозиторий
+      ansible.builtin.git:
+        repo: https://github.com/mdn/django-locallibrary-tutorial.git
+        dest: /home/vagrant/tmp_git_repo
+        version: main
+        update: no
+        clone: yes
+
+    - name: Скопировать статику в /var/html/static
+      ansible.builtin.copy:
+        src: /home/vagrant/tmp_git_repo/catalog/static
+        dest: /var/www/html
+        mode: u=rwx,g=rx,o=rx
+        remote_src: yes
+
+    - name: Удалить временную папку
+      ansible.builtin.file:
+        path: /home/vagrant/tmp_git_repo
+        state: absent
