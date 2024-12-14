@@ -1,11 +1,11 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "focal64.box"
 
-  # Constants
+  # Constants.
   SERVERS = 2  # Number of virtual machines
   BRIDGE = "Realtek PCIe GbE Family Controller"  # Network interface for bridged networking
 
-  # Function to configure each host
+  # Function to configure each host.
   def create_host(config, hostname, ip)
     config.vm.define hostname do |host|
       host.vm.hostname = hostname
@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  # Create each machine with incremented IP and hostname
+  # Create each machine with incremented IP and hostname.
   SERVERS.times do |i|
     create_host(config, "srv#{i + 1}", "192.168.56.#{200 + i + 1}")
   end
