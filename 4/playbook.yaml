@@ -1,0 +1,7 @@
+---
+- name: "Установка OpenVPN на сервер"
+  hosts: "server"
+  roles:
+    - openvpn
+...
+
